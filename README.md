@@ -10,6 +10,6 @@ This is a responsive and user-friendly React application that helps users find r
    ```bash
    git clone https://github.com/dhruv060305/Recipe-Finder.git
    cd recipe-finder
-2. **Install dependencies**
+2. **Install dependencies** <br>
     <code>npm install<code/>
 
