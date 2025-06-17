@@ -17,3 +17,42 @@ This is a responsive and user-friendly React application that helps users find r
 3. **Start the development server** <br>
     <code>npm start</code>
 
+<<<<<<< HEAD
+=======
+📡 API Used
+🥘 TheMealDB API
+Endpoints used:
+
+search.php?s= – Search meals by name
+
+lookup.php?i= – Get full meal details by ID
+
+✅ Features Implemented
+
+<ul>
+   <li>Search meals using keywords.</li>
+   <li>Recent search history with clickable entries and auto-suggestions.</li>
+   <li>Save favorite recipes and manage them.</li>
+   <li>Fully responsive UI built with React and Tailwind CSS.</li>
+   <li>Search dropdown similar to Google style.</li>
+   <li>Store and re-use previous search terms.</li>
+</ul>
+
+⚠️ Notes
+
+<ul>
+   <li>TheMealDB does not provide preparation time or exact veg/non-veg classification.</li>
+   <li>Favorites and recent searches are stored in local storage for persistence.</li>
+</ul>
+
+
+👤 Author <br>
+
+Created by Dhruv Taraviya
+
+<link>https://github.com/dhruv060305</link>
+<br>
+<link>www.linkedin.com/in/dhruv-taraviya-103010349</link>
+<br>
+<link>dhruvtaraviya1@gmail.com</link>
+>>>>>>> 18220292f427eabb2549689cad5869da3d1c72a6
