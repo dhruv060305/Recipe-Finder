@@ -17,8 +17,6 @@ This is a responsive and user-friendly React application that helps users find r
 3. **Start the development server** <br>
     <code>npm start</code>
 
-<<<<<<< HEAD
-=======
 📡 API Used
 🥘 TheMealDB API
 Endpoints used:
@@ -36,6 +34,7 @@ lookup.php?i= – Get full meal details by ID
    <li>Fully responsive UI built with React and Tailwind CSS.</li>
    <li>Search dropdown similar to Google style.</li>
    <li>Store and re-use previous search terms.</li>
+   <li>Download Recipe</li>
 </ul>
 
 ⚠️ Notes
@@ -55,4 +54,3 @@ Created by Dhruv Taraviya
 <link>www.linkedin.com/in/dhruv-taraviya-103010349</link>
 <br>
 <link>dhruvtaraviya1@gmail.com</link>
->>>>>>> 18220292f427eabb2549689cad5869da3d1c72a6
