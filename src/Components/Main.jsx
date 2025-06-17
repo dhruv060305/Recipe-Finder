@@ -9,21 +9,17 @@ const Main = () => {
   const [error, setError] = useState(null);
   const searchRef = useRef(null);
 
-  // Load favorites and recent searches from state on mount
   useEffect(() => {
-    // Since we can't use localStorage, we'll start with empty arrays
     setFavorites([]);
     setRecentSearches([]);
   }, []);
 
-  // Close recent searches when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowRecentSearches(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -34,7 +30,6 @@ const Main = () => {
     e.preventDefault();
     if (!query.trim()) return;
 
-    // Add to recent searches (avoid duplicates and limit to 10)
     const trimmedQuery = query.trim();
     setRecentSearches(prev => {
       const filtered = prev.filter(search => search.toLowerCase() !== trimmedQuery.toLowerCase());
@@ -62,7 +57,6 @@ const Main = () => {
   const handleRecentSearchClick = (searchTerm) => {
     setQuery(searchTerm);
     setShowRecentSearches(false);
-    // Trigger search automatically
     handleSearchWithTerm(searchTerm);
   };
 
@@ -105,6 +99,30 @@ const Main = () => {
     return favorites.some(fav => fav.idMeal === meal.idMeal);
   };
 
+  const downloadRecipe = (meal) => {
+    const recipeText = `
+Meal: ${meal.strMeal}
+Category: ${meal.strCategory}
+Area: ${meal.strArea || 'N/A'}
+Instructions:\n${meal.strInstructions || 'N/A'}
+
+Ingredients:
+${Array.from({ length: 20 }, (_, i) => {
+      const ingredient = meal[`strIngredient${i + 1}`];
+      const measure = meal[`strMeasure${i + 1}`];
+      return ingredient ? `- ${ingredient} (${measure || ''})` : null;
+    }).filter(Boolean).join('\n')}
+
+Link: ${meal.strSource || meal.strYoutube || 'N/A'}
+`;
+
+    const blob = new Blob([recipeText], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${meal.strMeal}-recipe.txt`;
+    link.click();
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <h1 className="text-3xl font-bold text-center mb-6">🍽 Recipe Finder</h1>
@@ -126,7 +144,7 @@ const Main = () => {
           >
             Search
           </button>
-          
+
           {showRecentSearches && recentSearches.length > 0 && (
             <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg z-10 mt-1">
               <div className="flex justify-between items-center p-3 border-b border-gray-200">
@@ -187,7 +205,12 @@ const Main = () => {
             >
               View Recipe
             </a>
-
+            <button
+              onClick={() => downloadRecipe(meal)}
+              className="text-green-600 mt-2 hover:underline"
+            >
+              ⬇️ Download Recipe
+            </button>
             <button
               onClick={() => toggleFavorite(meal)}
               className="absolute top-2 right-2 text-xl"
@@ -220,6 +243,12 @@ const Main = () => {
                 >
                   View Recipe
                 </a>
+                <button
+                  onClick={() => downloadRecipe(fav)}
+                  className="text-green-600 mt-2 hover:underline"
+                >
+                  ⬇️ Download Recipe
+                </button>
                 <button
                   onClick={() => toggleFavorite(fav)}
                   className="mt-2 text-red-500"

@@ -11,8 +11,9 @@ This is a responsive and user-friendly React application that helps users find r
    git clone https://github.com/dhruv060305/Recipe-Finder.git
    cd recipe-finder
 2. **Install dependencies** <br>
-    <code>npm install<code/>
+    <code>npm install</code>
 
 
 3. **Start the development server** <br>
-    <code>npm start<code/>
+    <code>npm start</code>
+
