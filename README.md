@@ -12,3 +12,7 @@ This is a responsive and user-friendly React application that helps users find r
    cd recipe-finder
 2. **Install dependencies** <br>
     <code>npm install<code/>
+
+
+3. **Start the development server** <br>
+    <code>npm start<code/>
