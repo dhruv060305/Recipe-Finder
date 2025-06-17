@@ -26,3 +26,7 @@ search.php?s= – Search meals by name
 
 lookup.php?i= – Get full meal details by ID
 
+
+✅ Features Implemented
+
+
