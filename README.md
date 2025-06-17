@@ -16,3 +16,13 @@ This is a responsive and user-friendly React application that helps users find r
 
 3. **Start the development server** <br>
     <code>npm start</code>
+
+
+📡 API Used
+🥘 TheMealDB API
+Endpoints used:
+
+search.php?s= – Search meals by name
+
+lookup.php?i= – Get full meal details by ID
+
