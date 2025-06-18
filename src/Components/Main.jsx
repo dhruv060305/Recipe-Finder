@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const Main = ({ toggleFavorite, favorites = [] }) => {
+  // State variables
   const [query, setQuery] = useState('');
   const [meals, setMeals] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
@@ -8,8 +9,9 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const searchRef = useRef(null);
+  const searchRef = useRef(null); // Reference for clicking outside search box
 
+  // Fetch meal categories on mount
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -26,6 +28,7 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
     }
   };
 
+  // Close recent search dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -36,18 +39,24 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!query.trim()) return;
+
     const trimmedQuery = query.trim();
+
+    // Save to recent searches (max 10)
     setRecentSearches((prev) => {
       const filtered = prev.filter((s) => s.toLowerCase() !== trimmedQuery.toLowerCase());
       return [trimmedQuery, ...filtered].slice(0, 10);
     });
+
     setShowRecentSearches(false);
     await handleSearchWithTerm(trimmedQuery);
   };
 
+  // Fetch meals from API
   const handleSearchWithTerm = async (term) => {
     try {
       const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`);
@@ -64,23 +73,28 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
     }
   };
 
+  // Click on a previous search
   const handleRecentSearchClick = (term) => {
     setQuery(term);
     setShowRecentSearches(false);
     handleSearchWithTerm(term);
   };
 
+  // Clear all recent searches
   const clearRecentSearches = () => {
     setRecentSearches([]);
     setShowRecentSearches(false);
   };
 
+  // Remove a single recent search
   const removeRecentSearch = (term) => {
     setRecentSearches((prev) => prev.filter((s) => s !== term));
   };
 
+  // Check if meal is in favorites
   const isFavorite = (meal) => (favorites || []).some((fav) => fav.idMeal === meal.idMeal);
 
+  // Download meal as a .txt file
   const handleDownload = (meal) => {
     const content = `Recipe: ${meal.strMeal}\n\nCategory: ${meal.strCategory}\n\nInstructions: ${meal.strInstructions}`;
     const blob = new Blob([content], { type: 'text/plain' });
@@ -92,6 +106,7 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
     document.body.removeChild(link);
   };
 
+  // Filter meals by selected category
   const filteredMeals = selectedCategory
     ? meals.filter((meal) => meal.strCategory === selectedCategory)
     : meals;
@@ -100,6 +115,7 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4 text-gray-800 dark:text-white">
       <h1 className="text-3xl font-bold text-center mb-6">🍽 Recipe Finder</h1>
 
+      {/* Category Dropdown */}
       <div className="flex justify-center mb-4">
         <select
           className="border dark:border-gray-700 px-3 py-2 rounded bg-white dark:bg-gray-800 focus:outline-none focus:ring"
@@ -113,6 +129,7 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
         </select>
       </div>
 
+      {/* Search Bar */}
       <div className="flex justify-center mb-6 relative" ref={searchRef}>
         <div className="flex relative">
           <input
@@ -130,6 +147,8 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
           >
             Search
           </button>
+
+          {/* Recent Search Dropdown */}
           {showRecentSearches && recentSearches.length > 0 && (
             <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-md shadow-lg z-10 mt-1">
               <div className="flex justify-between items-center p-3 border-b border-gray-200 dark:border-gray-700">
@@ -166,8 +185,10 @@ const Main = ({ toggleFavorite, favorites = [] }) => {
         </div>
       </div>
 
+      {/* Show error if any */}
       {error && <p className="text-red-500 text-center">{error}</p>}
 
+      {/* Meals Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {filteredMeals.map((meal) => (
           <div key={meal.idMeal} className="bg-white dark:bg-gray-800 p-4 rounded shadow relative">
