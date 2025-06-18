@@ -43,8 +43,10 @@ const Navbar = () => {
         {/* Links for desktop */}
         <div className="hidden md:flex space-x-6 text-lg">
           <Link to="/" className="hover:underline">Home</Link>
+          <Link to="/fav" className="hover:underline">Favorites</Link>
+          <Link to="/list" className="hover:underline">Shopping List</Link>
           <Link to="/about" className="hover:underline">About</Link>
-            <Link to="/fav" className="hover:underline">Favorites</Link>
+          
         </div>
       </div>
 
@@ -52,8 +54,9 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden mt-2 space-y-2 px-2">
           <Link to="/" className="block px-3 py-2 hover:bg-gray-700 rounded">Home</Link>
-          <Link to="/about" className="block px-3 py-2 hover:bg-gray-700 rounded">About</Link>
           <Link to="/fav" className="block px-3 py-2 hover:bg-gray-700 rounded">Favorites</Link>
+          <Link to="/list" className="block px-3 py-2 hover:bg-gray-700 rounded">Shopping List</Link>
+          <Link to="/about" className="block px-3 py-2 hover:bg-gray-700 rounded">About</Link>
         </div>
       )}
     </nav>

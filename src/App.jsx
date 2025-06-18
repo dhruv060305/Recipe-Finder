@@ -2,7 +2,8 @@ import "./App.css";
 import Nav from "./Components/Nav";
 import Main from "./Components/Main";
 import About from "./Components/About";
-import Fav from "./Components/Fav"; // <- import Fav
+import Fav from "./Components/Fav"; 
+import ShoppingList from './Components/ShoppingList';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Main favorites={favorites} toggleFavorite={toggleFavorite} />} />
         <Route path="/about" element={<About />} />
         <Route path="/fav" element={<Fav favorites={favorites} toggleFavorite={toggleFavorite} />} />
+        <Route path="/list" element={<ShoppingList />} />
       </Routes>
     </Router>
   );
