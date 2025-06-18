@@ -47,11 +47,21 @@ lookup.php?i= – Get full meal details by ID
 
 ## 📸 Screenshot
 
+<img src="./src/assets/Screenshot 2025-06-18 140630.png" alt="App Screenshot" width="500"/>
+<img src="./src/assets/Screenshot 2025-06-18 140600.png" alt="App Screenshot" width="500"/>
+<img src="./src/assets/Screenshot 2025-06-18 140642.png" alt="App Screenshot" width="500"/>
+<img src="./src/assets/Screenshot 2025-06-18 140714.png" alt="App Screenshot" width="500"/>
+<img src="./src/assets/Screenshot 2025-06-18 140810.png" alt="App Screenshot" width="500"/>
+<img src="./src/assets/Screenshot 2025-06-18 140829.png" alt="App Screenshot" width="500"/>
+<img src="./src/assets/Screenshot 2025-06-18 140843.png" alt="App Screenshot" width="500"/>
+<img src="./src/assets/Screenshot 2025-06-18 140903.png" alt="App Screenshot" width="500"/>
 
 
 
 
-👤 Author <br>
+## 👤 Author 
+
+<br>
 
 Created by Dhruv Taraviya
 
