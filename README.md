@@ -1,6 +1,6 @@
 # 🍳 Recipe Finder App
 
-This is a responsive and user-friendly React application that helps users find recipes based on ingredients or meal names using **TheMealDB API**. It includes features like favorites, recent searches, filtering, dark mode, and an AI chatbot.
+This is a responsive and user-friendly React application that helps users find recipes based on ingredients or meal names using **TheMealDB API**. It includes features like favorites, recent searches, filtering, Shopping List etc.
 
 ---
 
@@ -17,7 +17,7 @@ This is a responsive and user-friendly React application that helps users find r
 3. **Start the development server** <br>
     <code>npm start</code>
 
-📡 API Used
+## 📡 API Used
 🥘 TheMealDB API
 Endpoints used:
 
@@ -25,7 +25,7 @@ search.php?s= – Search meals by name
 
 lookup.php?i= – Get full meal details by ID
 
-✅ Features Implemented
+## ✅ Features Implemented
 
 <ul>
    <li>Search meals using keywords.</li>
@@ -34,15 +34,21 @@ lookup.php?i= – Get full meal details by ID
    <li>Fully responsive UI built with React and Tailwind CSS.</li>
    <li>Search dropdown similar to Google style.</li>
    <li>Store and re-use previous search terms.</li>
-   <li>Download Recipe</li>
+   <li>Shopping List </li>
+   <li>Download Recipe's & Shopping List</li>
 </ul>
 
-⚠️ Notes
+## ⚠️ Notes
 
 <ul>
    <li>TheMealDB does not provide preparation time or exact veg/non-veg classification.</li>
    <li>Favorites and recent searches are stored in local storage for persistence.</li>
 </ul>
+
+## 📸 Screenshot
+
+
+
 
 
 👤 Author <br>
