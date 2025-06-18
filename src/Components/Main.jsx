@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Main = () => {
+const Main = ({ toggleFavorite, favorites = [] }) => {
   const [query, setQuery] = useState('');
   const [meals, setMeals] = useState([]);
-  const [favorites, setFavorites] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
   const [showRecentSearches, setShowRecentSearches] = useState(false);
   const [error, setError] = useState(null);
@@ -12,8 +11,6 @@ const Main = () => {
   const searchRef = useRef(null);
 
   useEffect(() => {
-    setFavorites([]);
-    setRecentSearches([]);
     fetchCategories();
   }, []);
 
@@ -25,7 +22,7 @@ const Main = () => {
         setCategories(data.meals.map((cat) => cat.strCategory));
       }
     } catch (err) {
-      console.error('Failed to fetch categories');
+      console.error('Failed to fetch categories', err);
     }
   };
 
@@ -36,9 +33,7 @@ const Main = () => {
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -46,16 +41,16 @@ const Main = () => {
     if (!query.trim()) return;
     const trimmedQuery = query.trim();
     setRecentSearches((prev) => {
-      const filtered = prev.filter((search) => search.toLowerCase() !== trimmedQuery.toLowerCase());
+      const filtered = prev.filter((s) => s.toLowerCase() !== trimmedQuery.toLowerCase());
       return [trimmedQuery, ...filtered].slice(0, 10);
     });
     setShowRecentSearches(false);
     await handleSearchWithTerm(trimmedQuery);
   };
 
-  const handleSearchWithTerm = async (searchTerm) => {
+  const handleSearchWithTerm = async (term) => {
     try {
-      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
+      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`);
       const data = await res.json();
       if (data.meals) {
         setMeals(data.meals);
@@ -65,7 +60,7 @@ const Main = () => {
         setError('No meals found.');
       }
     } catch (err) {
-      setError('Could not fetch meals. Please try again.');
+      setError('Could not fetch meals.');
     }
   };
 
@@ -84,20 +79,7 @@ const Main = () => {
     setRecentSearches((prev) => prev.filter((s) => s !== term));
   };
 
-  const toggleFavorite = (meal) => {
-    const exists = favorites.find((fav) => fav.idMeal === meal.idMeal);
-    if (exists) {
-      setFavorites(favorites.filter((fav) => fav.idMeal !== meal.idMeal));
-    } else {
-      setFavorites([...favorites, meal]);
-    }
-  };
-
-  const isFavorite = (meal) => favorites.some((fav) => fav.idMeal === meal.idMeal);
-
-  const filteredMeals = selectedCategory
-    ? meals.filter((meal) => meal.strCategory === selectedCategory)
-    : meals;
+  const isFavorite = (meal) => (favorites || []).some((fav) => fav.idMeal === meal.idMeal);
 
   const handleDownload = (meal) => {
     const content = `Recipe: ${meal.strMeal}\n\nCategory: ${meal.strCategory}\n\nInstructions: ${meal.strInstructions}`;
@@ -110,13 +92,17 @@ const Main = () => {
     document.body.removeChild(link);
   };
 
+  const filteredMeals = selectedCategory
+    ? meals.filter((meal) => meal.strCategory === selectedCategory)
+    : meals;
+
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4 text-gray-800 dark:text-white">
       <h1 className="text-3xl font-bold text-center mb-6">🍽 Recipe Finder</h1>
 
       <div className="flex justify-center mb-4">
         <select
-          className="border px-3 py-2 rounded focus:outline-none focus:ring"
+          className="border dark:border-gray-700 px-3 py-2 rounded bg-white dark:bg-gray-800 focus:outline-none focus:ring"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
@@ -136,7 +122,7 @@ const Main = () => {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setShowRecentSearches(true)}
             onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
-            className="border px-4 py-2 w-64 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border px-4 py-2 w-64 rounded-l-md bg-white dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             onClick={handleSubmit}
@@ -145,9 +131,9 @@ const Main = () => {
             Search
           </button>
           {showRecentSearches && recentSearches.length > 0 && (
-            <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg z-10 mt-1">
-              <div className="flex justify-between items-center p-3 border-b border-gray-200">
-                <span className="text-sm font-medium text-gray-700">Recent Searches</span>
+            <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-md shadow-lg z-10 mt-1">
+              <div className="flex justify-between items-center p-3 border-b border-gray-200 dark:border-gray-700">
+                <span className="text-sm font-medium">Recent Searches</span>
                 <button onClick={clearRecentSearches} className="text-xs text-blue-500 hover:text-blue-700">
                   Clear All
                 </button>
@@ -156,12 +142,12 @@ const Main = () => {
                 {recentSearches.map((term, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-2 hover:bg-gray-50 cursor-pointer group"
+                    className="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer group"
                     onClick={() => handleRecentSearchClick(term)}
                   >
                     <div className="flex items-center flex-1">
                       <span className="text-gray-400 mr-2">🕒</span>
-                      <span className="text-sm text-gray-700">{term}</span>
+                      <span className="text-sm">{term}</span>
                     </div>
                     <button
                       onClick={(e) => {
@@ -184,14 +170,14 @@ const Main = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {filteredMeals.map((meal) => (
-          <div key={meal.idMeal} className="bg-white p-4 rounded shadow relative">
+          <div key={meal.idMeal} className="bg-white dark:bg-gray-800 p-4 rounded shadow relative">
             <img
               src={meal.strMealThumb}
               alt={meal.strMeal}
               className="w-full h-48 object-cover rounded"
             />
             <h2 className="text-xl font-semibold mt-2">{meal.strMeal}</h2>
-            <p className="text-sm text-gray-600">Category: {meal.strCategory || selectedCategory}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-300">Category: {meal.strCategory || selectedCategory}</p>
             <a
               href={meal.strSource || meal.strYoutube}
               target="_blank"
@@ -216,39 +202,6 @@ const Main = () => {
           </div>
         ))}
       </div>
-
-      {favorites.length > 0 && (
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold mb-4">❤️ Favorite Recipes</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {favorites.map((fav) => (
-              <div key={fav.idMeal} className="bg-white p-4 rounded shadow">
-                <img
-                  src={fav.strMealThumb}
-                  alt={fav.strMeal}
-                  className="w-full h-48 object-cover rounded"
-                />
-                <h2 className="text-xl font-semibold mt-2">{fav.strMeal}</h2>
-                <p className="text-sm text-gray-600">Category: {fav.strCategory}</p>
-                <a
-                  href={fav.strSource || fav.strYoutube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 mt-2 inline-block"
-                >
-                  View Recipe
-                </a>
-                <button
-                  onClick={() => toggleFavorite(fav)}
-                  className="mt-2 text-red-500"
-                >
-                  Remove from Favorites
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
