@@ -31,7 +31,7 @@ function App() {
 
   return (
     // Router wrapper to handle navigation
-    <Router basename="/">
+    <Router basename="/Recipe-Finder">
       {/* Navigation bar visible on all pages */}
       <Nav />
 
